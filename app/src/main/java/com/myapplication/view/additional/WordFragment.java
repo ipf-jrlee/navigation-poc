@@ -33,7 +33,7 @@ public class WordFragment extends Fragment {
             navController.navigate(action);
         });
 
-        ViewModelStoreOwner owner = navController.getViewModelStoreOwner(R.id.navigation_additional);
+        ViewModelStoreOwner owner = navController.getViewModelStoreOwner(R.id.additional_nav_graph);
         WordViewModel viewModel = new ViewModelProvider(owner).get(WordViewModel.class);
 
         viewModel.getCount().observe(getActivity(), count -> {

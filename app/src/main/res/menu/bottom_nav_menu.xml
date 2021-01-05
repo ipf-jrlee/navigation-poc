@@ -8,13 +8,13 @@
         android:menuCategory="container" />
 
     <item
-        android:id="@+id/navigation_playlist"
+        android:id="@+id/fragment_playlist"
         android:icon="@drawable/ic_playlist"
         android:title="@string/title_playlist"
         android:menuCategory="container" />
 
     <item
-        android:id="@+id/navigation_engagement"
+        android:id="@+id/fragment_engagement"
         android:icon="@drawable/ic_engagement"
         android:title="@string/title_engagement"
         android:menuCategory="container" />

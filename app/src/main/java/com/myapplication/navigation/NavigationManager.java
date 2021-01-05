@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class NavigationManager {
 
     private final int[] START_DESTINATIONS = {
-            R.id.fragment_bookshelf, R.id.navigation_playlist, R.id.navigation_engagement, R.id.fragment_additional
+            R.id.fragment_bookshelf, R.id.fragment_playlist, R.id.fragment_engagement, R.id.fragment_additional
     };
 
     private final NavController bookshelfNavController, playlistNavController, engagementNavController, additionalNavController;
@@ -30,13 +30,13 @@ public class NavigationManager {
 
     public NavigationManager(Activity activity) {
         bookshelfNavController = Navigation.findNavController(activity, R.id.bookshelf_tab_fragment);
-        bookshelfNavController.setGraph(R.navigation.bookshelf_navigation);
+        bookshelfNavController.setGraph(R.navigation.bookshelf_nav_graph);
         playlistNavController = Navigation.findNavController(activity, R.id.playlist_tab_fragment);
-        playlistNavController.setGraph(R.navigation.playlist_navigation);
+        playlistNavController.setGraph(R.navigation.playlist_nav_graph);
         engagementNavController = Navigation.findNavController(activity, R.id.engagement_tab_fragment);
-        engagementNavController.setGraph(R.navigation.engagement_navigation);
+        engagementNavController.setGraph(R.navigation.engagement_nav_graph);
         additionalNavController = Navigation.findNavController(activity, R.id.additional_tab_fragment);
-        additionalNavController.setGraph(R.navigation.additional_navigation);
+        additionalNavController.setGraph(R.navigation.additional_nav_graph);
         currentNavController = bookshelfNavController;
 
         bookshelfTab = activity.findViewById(R.id.bookshelf_tab);
@@ -54,12 +54,12 @@ public class NavigationManager {
         currentTab.setVisibility(View.GONE);
 
         switch (itemId) {
-            case R.id.navigation_playlist:
+            case R.id.fragment_playlist:
                 currentNavController = playlistNavController;
                 currentTab = playlistTab;
                 break;
 
-            case R.id.navigation_engagement:
+            case R.id.fragment_engagement:
                 currentNavController = engagementNavController;
                 currentTab = engagementTab;
                 break;
