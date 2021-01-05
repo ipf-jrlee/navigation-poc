@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fragment_bookshelf"
+        android:icon="@drawable/ic_bookshelf"
+        android:title="@string/title_bookshelf"
+        android:menuCategory="container" />
+
+    <item
+        android:id="@+id/navigation_playlist"
+        android:icon="@drawable/ic_playlist"
+        android:title="@string/title_playlist"
+        android:menuCategory="container" />
+
+    <item
+        android:id="@+id/navigation_engagement"
+        android:icon="@drawable/ic_engagement"
+        android:title="@string/title_engagement"
+        android:menuCategory="container" />
+
+    <item
+        android:id="@+id/fragment_additional"
+        android:icon="@drawable/ic_additional"
+        android:title="@string/title_additional"
+        android:menuCategory="container" />
+
+</menu>

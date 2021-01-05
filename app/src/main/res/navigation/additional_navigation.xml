@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_additional"
+    app:startDestination="@id/fragment_additional">
+
+    <fragment
+        android:id="@+id/fragment_additional"
+        android:name="com.myapplication.view.additional.AdditionalFragment"
+        android:label="@string/title_additional"
+        tools:layout="@layout/fragment_additional" >
+        <action
+            android:id="@+id/action_launch_words_from_additional"
+            app:enterAnim="@anim/enter_slide_in"
+            app:exitAnim="@anim/enter_slide_out"
+            app:popEnterAnim="@anim/exit_slide_in"
+            app:popExitAnim="@anim/exit_slide_out"
+            app:destination="@id/fragment_words" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_words"
+        android:name="com.myapplication.view.additional.WordFragment"
+        android:label="@string/title_words"
+        tools:layout="@layout/fragment_word" >
+        <action
+            android:id="@+id/action_launch_word_detail_from_words"
+            app:enterAnim="@anim/enter_slide_in"
+            app:exitAnim="@anim/enter_slide_out"
+            app:popEnterAnim="@anim/exit_slide_in"
+            app:popExitAnim="@anim/exit_slide_out"
+            app:destination="@id/fragment_word_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_word_detail"
+        android:name="com.myapplication.view.additional.WordDetailFragment"
+        android:label="@string/title_word_detail"
+        tools:layout="@layout/fragment_word_detail">
+
+        <argument android:name="word"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true"/>
+    </fragment>
+</navigation>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My Navigation</string>
+
+    <string name="title_bookshelf">내 서재</string>
+    <string name="title_search_book">도서 검색</string>
+    <string name="title_note_book">도서 검색</string>
+
+    <string name="title_playlist">플레이리스트</string>
+    <string name="title_engagement">학습 내역</string>
+
+    <string name="title_additional">더보기</string>
+    <string name="title_words">단어장</string>
+    <string name="title_word_detail">단어 상세</string>
+
+</resources>

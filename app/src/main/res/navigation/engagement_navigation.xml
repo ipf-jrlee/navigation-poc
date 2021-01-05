@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/navigation_engagement">
+
+    <fragment
+        android:id="@+id/navigation_engagement"
+        android:name="com.myapplication.view.engagement.EngagementFragment"
+        android:label="@string/title_engagement"
+        tools:layout="@layout/fragment_engagement" />
+</navigation>

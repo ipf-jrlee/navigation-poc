@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragment_bookshelf">
+
+    <fragment
+        android:id="@+id/fragment_bookshelf"
+        android:name="com.myapplication.view.bookshelf.BookshelfFragment"
+        android:label="@string/title_bookshelf"
+        tools:layout="@layout/fragment_bookshelf" >
+        <action
+            android:id="@+id/action_launch_search_book_from_bookshelf"
+            app:enterAnim="@anim/enter_slide_in"
+            app:exitAnim="@anim/enter_slide_out"
+            app:popEnterAnim="@anim/exit_slide_in"
+            app:popExitAnim="@anim/exit_slide_out"
+            app:destination="@id/fragment_search_book" />
+        <action
+            android:id="@+id/action_launch_note_book_from_bookshelf"
+            app:enterAnim="@anim/enter_slide_in"
+            app:exitAnim="@anim/enter_slide_out"
+            app:popEnterAnim="@anim/exit_slide_in"
+            app:popExitAnim="@anim/exit_slide_out"
+            app:destination="@id/fragment_note_book" />
+        <action
+            android:id="@+id/action_launch_reading_road_from_bookshelf"
+            app:enterAnim="@anim/enter_slide_in"
+            app:exitAnim="@anim/enter_slide_out"
+            app:popEnterAnim="@anim/exit_slide_in"
+            app:popExitAnim="@anim/exit_slide_out"
+            app:destination="@id/fragment_reading_road" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_search_book"
+        android:name="com.myapplication.view.bookshelf.SearchBookFragment"
+        android:label="@string/title_search_book"
+        tools:layout="@layout/fragment_search_book" />
+
+    <fragment
+        android:id="@+id/fragment_note_book"
+        android:name="com.myapplication.view.bookshelf.BookNoteFragment"
+        android:label="@string/title_note_book"
+        tools:layout="@layout/fragment_note_book" />
+
+    <activity
+        android:id="@+id/fragment_reading_road"
+        android:name="com.myapplication.RoadActivity"
+        android:label="RoadActivity"/>
+</navigation>
