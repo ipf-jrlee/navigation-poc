@@ -25,7 +25,7 @@ public class BookshelfFragment extends Fragment {
 
         viewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        NavController navController = Navigation.findNavController(getActivity(), R.id.bookshelf_tab_fragment);
+        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_bookshelf);
 
         root.findViewById(R.id.search_book).setOnClickListener(v ->
                 navController.navigate(R.id.action_launch_search_book_from_bookshelf));

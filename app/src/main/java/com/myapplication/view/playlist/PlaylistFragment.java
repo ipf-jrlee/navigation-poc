@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.myapplication.R;
 
-public class PlaylistFragment extends Fragment {
+public class PlaylistFragment extends NavHostFragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -27,9 +27,9 @@ public class PlaylistFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
 
-        Log.e("R&", "[PlaylistFragment] onResume: " + isVisible() + ", " + isHidden());
+        Log.e("R&", "[PlaylistFragment] onHiddenChanged: " + hidden);
     }
 }

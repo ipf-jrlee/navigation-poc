@@ -25,7 +25,7 @@ public class AdditionalFragment extends Fragment {
         viewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         root.findViewById(R.id.words).setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(getActivity(), R.id.additional_tab_fragment);
+            NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_additional);
 
             navController.navigate(R.id.action_launch_words_from_additional);
         });

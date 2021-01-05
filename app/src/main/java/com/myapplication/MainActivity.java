@@ -1,18 +1,16 @@
 package com.myapplication;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.myapplication.navigation.NavigationManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.myapplication.navigation.NavigationManager;
 
 public class MainActivity extends AppCompatActivity {
 
     private NavigationManager tabManager;
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

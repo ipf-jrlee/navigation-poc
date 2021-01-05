@@ -5,68 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout android:id="@+id/bookshelf_tab"
+    <androidx.fragment.app.FragmentContainerView android:id="@+id/fragment_bookshelf"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/nav_view">
+        app:layout_constraintBottom_toTopOf="@id/nav_view" />
 
-        <fragment android:id="@+id/bookshelf_tab_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="false"/>
-    </FrameLayout>
-
-    <FrameLayout android:id="@+id/playlist_tab"
+    <androidx.fragment.app.FragmentContainerView android:id="@+id/fragment_playlist"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/nav_view">
+        app:layout_constraintBottom_toTopOf="@id/nav_view" />
 
-        <fragment android:id="@+id/playlist_tab_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="false"/>
-    </FrameLayout>
-
-    <FrameLayout android:id="@+id/engagement_tab"
+    <androidx.fragment.app.FragmentContainerView android:id="@+id/fragment_engagement"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/nav_view">
+        app:layout_constraintBottom_toTopOf="@id/nav_view" />
 
-        <fragment android:id="@+id/engagement_tab_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="false"/>
-    </FrameLayout>
-
-    <FrameLayout android:id="@+id/additional_tab"
+    <androidx.fragment.app.FragmentContainerView android:id="@+id/fragment_additional"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/nav_view">
-
-        <fragment android:id="@+id/additional_tab_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="false"/>
-    </FrameLayout>
+        app:layout_constraintBottom_toTopOf="@id/nav_view" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

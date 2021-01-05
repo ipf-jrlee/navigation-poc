@@ -35,7 +35,7 @@ public class WordDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        NavController navController = Navigation.findNavController(getActivity(), R.id.additional_tab_fragment);
+        NavController navController = Navigation.findNavController(getActivity(), R.id.fragment_additional);
         ViewModelStoreOwner owner = navController.getViewModelStoreOwner(R.id.additional_nav_graph);
         WordViewModel viewModel = new ViewModelProvider(owner).get(WordViewModel.class);
 

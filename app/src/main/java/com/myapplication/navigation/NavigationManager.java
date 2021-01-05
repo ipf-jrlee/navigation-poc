@@ -2,15 +2,18 @@ package com.myapplication.navigation;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.view.View;
 
-import androidx.navigation.NavBackStackEntry;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
-import com.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.myapplication.R;
+
+import java.util.Objects;
 
 public class NavigationManager {
 
@@ -18,32 +21,25 @@ public class NavigationManager {
             R.id.fragment_bookshelf, R.id.fragment_playlist, R.id.fragment_engagement, R.id.fragment_additional
     };
 
-    private final NavController bookshelfNavController, playlistNavController, engagementNavController, additionalNavController;
+    private final NavHostFragment bookshelfFragment;
+    private NavHostFragment playlistFragment, engagementFragment, additionalFragment;
+    private NavHostFragment currentFragment;
     private NavController currentNavController;
-    private int currentTabId = R.id.fragment_bookshelf;
-
-    private final View bookshelfTab, playlistTab, engagementTab, additionalTab;
-    private View currentTab;
 
     private final BottomNavigationView bottomNavView;
+    private final FragmentManager fragmentManager;
     private final Activity mainActivity;
 
-    public NavigationManager(Activity activity) {
-        bookshelfNavController = Navigation.findNavController(activity, R.id.bookshelf_tab_fragment);
-        bookshelfNavController.setGraph(R.navigation.bookshelf_nav_graph);
-        playlistNavController = Navigation.findNavController(activity, R.id.playlist_tab_fragment);
-        playlistNavController.setGraph(R.navigation.playlist_nav_graph);
-        engagementNavController = Navigation.findNavController(activity, R.id.engagement_tab_fragment);
-        engagementNavController.setGraph(R.navigation.engagement_nav_graph);
-        additionalNavController = Navigation.findNavController(activity, R.id.additional_tab_fragment);
-        additionalNavController.setGraph(R.navigation.additional_nav_graph);
-        currentNavController = bookshelfNavController;
+    public NavigationManager(AppCompatActivity activity) {
+        fragmentManager = activity.getSupportFragmentManager();
+        bookshelfFragment = NavHostFragment.create(R.navigation.bookshelf_nav_graph);
 
-        bookshelfTab = activity.findViewById(R.id.bookshelf_tab);
-        playlistTab = activity.findViewById(R.id.playlist_tab);
-        engagementTab = activity.findViewById(R.id.engagement_tab);
-        additionalTab = activity.findViewById(R.id.additional_tab);
-        currentTab = bookshelfTab;
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_bookshelf, bookshelfFragment)
+                .commitNow();
+
+        currentFragment = bookshelfFragment;
+        currentNavController = currentFragment.getNavController();
 
         bottomNavView = activity.findViewById(R.id.nav_view);
         mainActivity = activity;
@@ -51,32 +47,48 @@ public class NavigationManager {
 
     @SuppressLint("NonConstantResourceId")
     public void switchTab(final int itemId) {
-        currentTab.setVisibility(View.GONE);
+        Fragment previousFragment = currentFragment;
 
         switch (itemId) {
             case R.id.fragment_playlist:
-                currentNavController = playlistNavController;
-                currentTab = playlistTab;
+                if (playlistFragment == null) {
+                    playlistFragment = NavHostFragment.create(R.navigation.playlist_nav_graph);
+                    secureFragment(R.id.fragment_playlist, playlistFragment);
+                }
+                currentFragment = playlistFragment;
                 break;
 
             case R.id.fragment_engagement:
-                currentNavController = engagementNavController;
-                currentTab = engagementTab;
+                if (engagementFragment == null) {
+                    engagementFragment = NavHostFragment.create(R.navigation.engagement_nav_graph);
+                    secureFragment(R.id.fragment_engagement, engagementFragment);
+                }
+                currentFragment = engagementFragment;
                 break;
 
             case R.id.fragment_additional:
-                currentNavController = additionalNavController;
-                currentTab = additionalTab;
+                if (additionalFragment == null) {
+                    additionalFragment = NavHostFragment.create(R.navigation.additional_nav_graph);
+                    secureFragment(R.id.fragment_additional, additionalFragment);
+                }
+                currentFragment = additionalFragment;
                 break;
 
             case R.id.fragment_bookshelf:
             default:
-                currentNavController = bookshelfNavController;
-                currentTab = bookshelfTab;
+                currentFragment = bookshelfFragment;
                 break;
         }
-        currentTab.setVisibility(View.VISIBLE);
-        currentTabId = itemId;
+
+        fragmentManager.beginTransaction()
+                .hide(previousFragment)
+                .show(currentFragment)
+                .commitNow();
+
+        previousFragment.onHiddenChanged(true);
+        currentFragment.onHiddenChanged(false);
+
+        currentNavController = currentFragment.getNavController();
     }
 
     public void onBackPressed() {
@@ -87,23 +99,32 @@ public class NavigationManager {
                 bottomNavView.setSelectedItemId(R.id.fragment_bookshelf);
             }
         } else {
-            currentNavController.popBackStack();
+            NavController navController = currentFragment.getNavController();
+
+            navController.popBackStack();
         }
     }
 
     public void clearCurrentTabStack() {
+        NavController navController = currentFragment.getNavController();
+
         while (!isEntryDestination()) {
-            currentNavController.popBackStack();
+            navController.popBackStack();
         }
     }
 
+    private void secureFragment(int fragmentId, NavHostFragment fragment) {
+        fragmentManager.beginTransaction()
+                .replace(fragmentId, fragment)
+                .commitNow();
+    }
+
     private boolean isMyBookshelfTabSelected() {
-        return currentTabId == R.id.fragment_bookshelf;
+        return currentFragment.getId() == R.id.fragment_bookshelf;
     }
 
     private boolean isEntryDestination() {
-        NavBackStackEntry backStackEntry = currentNavController.getCurrentBackStackEntry();
-        NavDestination destination = backStackEntry.getDestination();
+        NavDestination destination = getCurrentDestination();
         int destinationId = destination.getId();
 
         for (int entryDest : START_DESTINATIONS) {
@@ -114,4 +135,9 @@ public class NavigationManager {
         return false;
     }
 
+    private NavDestination getCurrentDestination() {
+        return Objects.requireNonNull(currentNavController
+                .getCurrentBackStackEntry())
+                .getDestination();
+    }
 }
