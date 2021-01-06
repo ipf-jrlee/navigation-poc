@@ -1,7 +1,6 @@
 package com.myapplication.view.playlist;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +17,11 @@ public class PlaylistFragment extends NavHostFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_playlist, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
+        final TextView textView = root.findViewById(R.id.text_playlist);
 
         PlaylistViewModel viewModel = new ViewModelProvider(this).get(PlaylistViewModel.class);
         viewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         return root;
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
-        Log.e("R&", "[PlaylistFragment] onHiddenChanged: " + hidden);
     }
 }

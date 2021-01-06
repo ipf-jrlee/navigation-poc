@@ -2,9 +2,12 @@ package com.myapplication.navigation;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
@@ -15,7 +18,7 @@ import com.myapplication.R;
 
 import java.util.Objects;
 
-public class NavigationManager {
+public class NavigationManager implements NavController.OnDestinationChangedListener {
 
     private final int[] START_DESTINATIONS = {
             R.id.fragment_bookshelf, R.id.fragment_playlist, R.id.fragment_engagement, R.id.fragment_additional
@@ -24,7 +27,6 @@ public class NavigationManager {
     private final NavHostFragment bookshelfFragment;
     private NavHostFragment playlistFragment, engagementFragment, additionalFragment;
     private NavHostFragment currentFragment;
-    private NavController currentNavController;
 
     private final BottomNavigationView bottomNavView;
     private final FragmentManager fragmentManager;
@@ -39,7 +41,8 @@ public class NavigationManager {
                 .commitNow();
 
         currentFragment = bookshelfFragment;
-        currentNavController = currentFragment.getNavController();
+        currentFragment.getNavController()
+                .addOnDestinationChangedListener(this);
 
         bottomNavView = activity.findViewById(R.id.nav_view);
         mainActivity = activity;
@@ -47,29 +50,29 @@ public class NavigationManager {
 
     @SuppressLint("NonConstantResourceId")
     public void switchTab(final int itemId) {
-        Fragment previousFragment = currentFragment;
+        NavHostFragment previousFragment = currentFragment;
+
+        previousFragment.getNavController()
+                .removeOnDestinationChangedListener(this);
 
         switch (itemId) {
             case R.id.fragment_playlist:
                 if (playlistFragment == null) {
-                    playlistFragment = NavHostFragment.create(R.navigation.playlist_nav_graph);
-                    secureFragment(R.id.fragment_playlist, playlistFragment);
+                    playlistFragment = secureFragment(R.navigation.playlist_nav_graph, R.id.fragment_playlist);
                 }
                 currentFragment = playlistFragment;
                 break;
 
             case R.id.fragment_engagement:
                 if (engagementFragment == null) {
-                    engagementFragment = NavHostFragment.create(R.navigation.engagement_nav_graph);
-                    secureFragment(R.id.fragment_engagement, engagementFragment);
+                    engagementFragment = secureFragment(R.navigation.engagement_nav_graph, R.id.fragment_engagement);
                 }
                 currentFragment = engagementFragment;
                 break;
 
             case R.id.fragment_additional:
                 if (additionalFragment == null) {
-                    additionalFragment = NavHostFragment.create(R.navigation.additional_nav_graph);
-                    secureFragment(R.id.fragment_additional, additionalFragment);
+                    additionalFragment = secureFragment(R.navigation.additional_nav_graph, R.id.fragment_additional);
                 }
                 currentFragment = additionalFragment;
                 break;
@@ -80,15 +83,19 @@ public class NavigationManager {
                 break;
         }
 
+        currentFragment.getNavController()
+                .addOnDestinationChangedListener(this);
+
         fragmentManager.beginTransaction()
                 .hide(previousFragment)
                 .show(currentFragment)
                 .commitNow();
+    }
 
-        previousFragment.onHiddenChanged(true);
-        currentFragment.onHiddenChanged(false);
-
-        currentNavController = currentFragment.getNavController();
+    @Override
+    public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+        Log.e("R&", "[NavigationManager] onDestinationChanged: " + destination.getLabel());
+        // TODO : SEND FIREBASE SCREEN EVENT
     }
 
     public void onBackPressed() {
@@ -113,10 +120,14 @@ public class NavigationManager {
         }
     }
 
-    private void secureFragment(int fragmentId, NavHostFragment fragment) {
+    private NavHostFragment secureFragment(int navGraphId, int fragmentId) {
+        NavHostFragment fragment = NavHostFragment.create(navGraphId);
+
         fragmentManager.beginTransaction()
                 .replace(fragmentId, fragment)
                 .commitNow();
+
+        return fragment;
     }
 
     private boolean isMyBookshelfTabSelected() {
@@ -136,7 +147,7 @@ public class NavigationManager {
     }
 
     private NavDestination getCurrentDestination() {
-        return Objects.requireNonNull(currentNavController
+        return Objects.requireNonNull(currentFragment.getNavController()
                 .getCurrentBackStackEntry())
                 .getDestination();
     }
